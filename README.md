@@ -23,3 +23,6 @@ Due to the potential gender imbalance in the CelebA dataset , the model is expec
 
 Although CelebA dataset does not explicity label skin tone , the model may demonstrate reduced performance for darker skin tone. This analysis is exploratory and subject ot dataset limitations .
 
+## Limitations
+While the work of the model is to evaluate the smiling attributes across a demopgraphuc group , there are several limitations. First the CelebA dataset does not evenly represent gender demographic categories, prior analysis has shown that female labeled images occur more than male labeled images ,which could influence model decisions and evaluations. Second, the dataset does not provide explicit annotations for skin tone or other intersectional attributes, so any exploratory interpretations regarding these features are limited by the absence of ground-truth labels. Third, the dataset consists of celebrity images collected from publicly available sources, which may not represent broader population distributions. These factors limit the generalizability of this study’s findings to other settings beyond the CelebA dataset.
+
