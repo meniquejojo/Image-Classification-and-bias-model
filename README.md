@@ -15,7 +15,11 @@ Model performance is primarily evaluated using **recall** for the smiling class,
 Additional metrics include precision, F1-score, and confusion matrices. Confusion matrices are computed separately for each demographic subgroup (e.g., gender and age) to analyze misclassification patterns and identify performance disparities.
 
 ## Bias Hypothesis 
-**Primary hypothesis **
+**Primary hypothesis**.
+
 Due to the potential gender imbalance in the CelebA dataset , the model is expected to avheive a higher classification accuracy in the female gender than male presenting faces.
-** Exploratory Hyothesis **
+
+**Exploratory Hyothesis** 
+
 Although CelebA dataset does not explicity label skin tone , the model may demonstrate reduced performance for darker skin tone. This analysis is exploratory and subject ot dataset limitations .
+
