@@ -28,34 +28,55 @@ While the work of the model is to evaluate the smiling attributes across a demop
 
 ## Methodology
 
-This project uses a Convolutional Neural Network (CNN) trained on the CelebA dataset to classify images into Smiling and Not Smiling.
+### 1. Data Preprocessing
+- Images were resized to 64×64 pixels and normalized.
+- Labels for "Smiling" were converted to binary (1 = smiling, 0 = not smiling).
 
-Steps:
-	1.	Data Preprocessing: Images were resized to 64×64, normalized, and labels converted to binary.
-	2.	Dataset Split: Data was divided into training, validation, and testing sets.
-	3.	Exploratory Analysis: Class distribution and gender imbalance were analyzed and visualized.
-	4.	Model Architecture: A CNN with multiple Conv → Pool blocks followed by Dense layers was implemented. The final layer outputs a sigmoid for binary classification.
-	5.	Training: The model was trained with early stopping to prevent overfitting. Batch size = 32, epochs = 30, Adam optimizer, and binary cross-entropy loss.
-	6.	Evaluation: Model performance was assessed overall and per demographic subgroup (male/female × smiling/not smiling). Confusion matrices and accuracy metrics were computed to identify biases.
+### 2. Dataset Split
+- The dataset was divided into training, validation, and testing sets.
+
+### 3. Exploratory Analysis
+- Class distribution and gender imbalance were analyzed.
+- Visualizations were created to inspect the number of smiling vs non-smiling images per gender.
+
+### 4. Model Architecture
+- A Convolutional Neural Network (CNN) was implemented with multiple Conv → Pool blocks followed by Dense layers.
+- The final layer uses a sigmoid activation for binary classification.
+
+### 5. Training
+- The model was trained using:
+  - Batch size = 32
+  - Epochs = 30
+  - Adam optimizer
+  - Binary cross-entropy loss
+- Early stopping was applied to prevent overfitting.
+
+### 6. Evaluation
+- Overall model accuracy was computed.
+- Subgroup performance metrics were evaluated for male/female × smiling/not smiling categories.
+- Confusion matrices and subgroup accuracies were used to identify potential biases.
 
 
-## Results & Bias Insights
+## Overall Accuracy: ~91.8%
 
-Overall Accuracy: ~91.8%
+## Subgroup Accuracy
+	-	Female Smiling: 0.92
+	-	Female Not Smiling: 0.93
+	-	Male Smiling: 0.86
+	-	Male Not Smiling: 0.94
 
-Subgroup Accuracy:
-	•	Female Smiling: 0.92
-	•	Female Not Smiling: 0.93
-	•	Male Smiling: 0.86
-	•	Male Not Smiling: 0.94
-
-Insights:
-	•	The model performs slightly worse on male smiling faces, supporting the hypothesis that gender imbalance affects model performance.
-	•	The model performs well overall, but exploratory analysis indicates potential underperformance on less-represented subgroups.
-	•	Confusion matrices reveal that errors are concentrated in underrepresented subgroups, highlighting areas for future dataset balancing or model improvement.
+## Insights:
+	-	The model performs slightly worse on male smiling faces, supporting the hypothesis that gender imbalance affects model performance.
+	-	The model performs well overall, but exploratory analysis indicates potential underperformance on less-represented subgroups.
+	-	Confusion matrices reveal that errors are concentrated in underrepresented subgroups, highlighting areas for future dataset balancing or model improvement.
 
 
 ## Summary
 
 This project demonstrates a full deep learning workflow for facial attribute classification, including preprocessing, CNN training, subgroup evaluation, and bias analysis. Key findings show high overall accuracy but reveal demographic disparities in predictions, emphasizing the importance of fairness-aware evaluation in machine learning.
+
+
+
+
+
 
