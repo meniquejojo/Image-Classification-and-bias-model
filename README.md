@@ -10,9 +10,9 @@ The model is evaluated using standard classification metrics, including:
 - **Subgroup-wise performance metrics** to identify potential demographic bias
 
 ## Evaluation Strategy
-Model performance is primarily evaluated using **recall** for the smiling class, as it measures the proportion of actual smiling faces correctly identified by the model. This metric is emphasized to expose potential demographic bias, particularly false negatives that may disproportionately affect certain subgroups.
+Model performance is primarily evaluated using **accuracy** for the smiling class, as it measures the proportion of actual smiling faces correctly identified by the model. This metric is emphasized to expose potential demographic bias, particularly false negatives that may disproportionately affect certain subgroups.
 
-Additional metrics include precision, F1-score, and confusion matrices. Confusion matrices are computed separately for each demographic subgroup (e.g., gender and age) to analyze misclassification patterns and identify performance disparities.
+Additional metrics include recall,precision, F1-score, and confusion matrices. Confusion matrices are computed separately for each demographic subgroup (e.g., gender and age) to analyze misclassification patterns and identify performance disparities.
 
 ## Bias Hypothesis 
 **Primary hypothesis**.
