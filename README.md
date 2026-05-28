@@ -1,82 +1,46 @@
-## Project Overview
-This project uses deep learning with TensorFlow to classify facial images as **Smiling** or **Not Smiling**.  
-In addition to model performance, the project evaluates **demographic bias** by analyzing prediction disparities across subgroups such as gender and age.
+# Image Classification and Bias Analysis
 
-## Evaluation Metrics
-The model is evaluated using standard classification metrics, including:
-- **Accuracy** for overall performance
-- **Precision, Recall, and F1-score** to assess error trade-offs
-- **Confusion matrices** to analyze misclassification patterns
-- **Subgroup-wise performance metrics** to identify potential demographic bias
+This repository contains research into intersectional bias in facial expression 
+classification. The project trains a CNN smiling classifier on the CelebA dataset, 
+evaluates its performance across demographic subgroups, and tests whether bias 
+patterns generalize to an out-of-distribution dataset (FairFace).
 
-## Evaluation Strategy
-Model performance is primarily evaluated using **accuracy** for the smiling class, as it measures the proportion of actual smiling faces correctly identified by the model. This metric is emphasized to expose potential demographic bias, particularly false negatives that may disproportionately affect certain subgroups.
+## Research Question
 
-Additional metrics include recall,precision, F1-score, and confusion matrices. Confusion matrices are computed separately for each demographic subgroup (e.g., gender and age) to analyze misclassification patterns and identify performance disparities.
+Does a smiling classifier trained on CelebA encode demographic stereotypes rather 
+than learning expression features independent of identity — and does that bias 
+pattern persist when the model encounters a demographically diverse dataset it has 
+never seen?
 
-## Bias Hypothesis 
-**Primary hypothesis**.
+## Key Findings
 
-Due to the potential gender imbalance in the CelebA dataset , the model is expected to avheive a higher classification accuracy in the female gender than male presenting faces.
-
-**Exploratory Hyothesis** 
-
-Although CelebA dataset does not explicity label skin tone , the model may demonstrate reduced performance for darker skin tone. This analysis is exploratory and subject ot dataset limitations .
-
-## Limitations
-While the work of the model is to evaluate the smiling attributes across a demopgraphuc group , there are several limitations. First the CelebA dataset does not evenly represent gender demographic categories, prior analysis has shown that female labeled images occur more than male labeled images ,which could influence model decisions and evaluations. Second, the dataset does not provide explicit annotations for skin tone or other intersectional attributes, so any exploratory interpretations regarding these features are limited by the absence of ground-truth labels. Third, the dataset consists of celebrity images collected from publicly available sources, which may not represent broader population distributions. These factors limit the generalizability of this study’s findings to other settings beyond the CelebA dataset.
+- The model achieved 91.6% overall accuracy on CelebA, but showed a consistent 
+  **5.2% F1 gap** between female subgroups (F1: 0.933) and male subgroups 
+  (F1: 0.881), suggesting the model encodes gender as a feature rather than 
+  expression alone.
+- On FairFace (zero-shot, 97,698 images), female subgroups were predicted as 
+  smiling at **roughly double the rate** of male subgroups across every racial 
+  group without exception — confirming the gender bias is a property of the model, 
+  not an artifact of the CelebA distribution.
+- Racial disparities emerged within male subgroups on FairFace: white males showed 
+  the highest predicted smiling rate (15.2%) while middle eastern males showed the 
+  lowest (8.9%), a gap invisible in the CelebA evaluation which lacked racial labels.
 
 ## Methodology
 
-### 1. Data Preprocessing
-- Images were resized to 64×64 pixels and normalized.
-- Labels for "Smiling" were converted to binary (1 = smiling, 0 = not smiling).
+This project reproduces and extends the evaluation framework from Buolamwini and 
+Gebru's *Gender Shades* (FAccT 2018), applying intersectional demographic evaluation 
+to expression classification rather than gender classification.
 
-### 2. Dataset Split
-- The dataset was divided into training, validation, and testing sets.
+The two-dataset approach was intentional:
+- **CelebA** provides ground truth labels, enabling accuracy-based fairness metrics 
+  (precision, recall, F1 per subgroup)
+- **FairFace** provides racial demographic labels and a demographically diverse 
+  population, enabling distributional bias analysis across race × gender subgroups
 
-### 3. Exploratory Analysis
-- Class distribution and gender imbalance were analyzed.
-- Visualizations were created to inspect the number of smiling vs non-smiling images per gender.
+## References
 
-### 4. Model Architecture
-- A Convolutional Neural Network (CNN) was implemented with multiple Conv → Pool blocks followed by Dense layers.
-- The final layer uses a sigmoid activation for binary classification.
-
-### 5. Training
-- The model was trained using:
-  - Batch size = 32
-  - Epochs = 30
-  - Adam optimizer
-  - Binary cross-entropy loss
-- Early stopping was applied to prevent overfitting.
-
-### 6. Evaluation
-- Overall model accuracy was computed.
-- Subgroup performance metrics were evaluated for male/female × smiling/not smiling categories.
-- Confusion matrices and subgroup accuracies were used to identify potential biases.
-
-
-## Overall Accuracy: ~91.8%
-
-## Subgroup Accuracy
-	-	Female Smiling: 0.92
-	-	Female Not Smiling: 0.93
-	-	Male Smiling: 0.86
-	-	Male Not Smiling: 0.94
-
-## Insights:
-	-	The model performs slightly worse on male smiling faces, supporting the hypothesis that gender imbalance affects model performance.
-	-	The model performs well overall, but exploratory analysis indicates potential underperformance on less-represented subgroups.
-	-	Confusion matrices reveal that errors are concentrated in underrepresented subgroups, highlighting areas for future dataset balancing or model improvement.
-
-
-## Summary
-
-This project demonstrates a full deep learning workflow for facial attribute classification, including preprocessing, CNN training, subgroup evaluation, and bias analysis. Key findings show high overall accuracy but reveal demographic disparities in predictions, emphasizing the importance of fairness-aware evaluation in machine learning.
-
-
-
-
-
-
+- Buolamwini, J. & Gebru, T. (2018). Gender Shades: Intersectional Accuracy 
+  Disparities in Commercial Gender Classification. *FAccT 2018*.
+- Karkkainen, K. & Joo, J. (2021). FairFace: Face Attribute Dataset for Balanced 
+  Race, Gender, and Age. *WACV 2021*.
