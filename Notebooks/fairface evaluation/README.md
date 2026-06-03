@@ -1,32 +1,31 @@
 # FairFace Generalization Evaluation
 
-Zero-shot evaluation of the CelebA smiling classifier on FairFace — a 
-demographically diverse dataset the model has never seen — to test whether 
+Zero-shot evaluation of the CelebA smiling classifier on FairFace — a
+demographically diverse dataset the model has never seen — to test whether
 gender bias patterns generalize across race and population.
 
 ## What This Notebook Does
 
 1. Loads the pretrained CelebA smiling classifier
 2. Runs zero-shot inference on 97,698 FairFace images
-3. Evaluates predicted smiling rate and model confidence across 
+3. Evaluates predicted smiling rate and model confidence across
    race × gender subgroups
 4. Compares findings against the CelebA bias audit
 
 ## Why FairFace Has No Accuracy Metrics
 
-FairFace does not include smiling ground truth labels. This notebook therefore 
+FairFace does not include smiling ground truth labels. This notebook therefore
 measures **distributional bias** rather than accuracy bias:
 
-- **Predicted smiling rate**: what fraction of each subgroup does the model 
+- **Predicted smiling rate:** what fraction of each subgroup does the model
   predict as smiling?
-- **Average confidence**: how strongly does the model commit to its smiling 
+- **Average confidence:** how strongly does the model commit to its smiling
   prediction for each subgroup?
 
-If smiling expression were distributed equally across demographic groups in a 
-general population dataset, a fair model would predict approximately equal smiling 
-rates across subgroups. Systematic deviation from this expectation — particularly 
-patterns consistent with social stereotypes — indicates the model has encoded 
-demographic bias from its training distribution.
+If smiling expression were distributed equally across demographic groups in a
+general population dataset, a fair model would predict approximately equal
+smiling rates across subgroups. Systematic deviation from this expectation
+indicates the model has encoded demographic bias from its training distribution.
 
 ## Results
 
@@ -49,32 +48,39 @@ demographic bias from its training distribution.
 
 ## Key Findings
 
-**Gender bias is systematic and consistent.** Female subgroups are predicted as 
-smiling at approximately double the rate of male subgroups across every single 
-racial group without exception. This confirms the gender bias identified in the 
-CelebA evaluation is a property of the model itself, not an artifact of the 
-CelebA dataset distribution.
+**Gender bias is systematic and consistent.** Female subgroups are predicted
+as smiling at approximately double the rate of male subgroups across every
+racial group without exception. This confirms the gender bias identified in
+the CelebA evaluation is a property of the model itself, not an artifact of
+the CelebA dataset distribution.
 
-**Racial disparities exist within gender subgroups.** Among male subgroups, 
-white males show the highest predicted smiling rate (15.2%) while middle eastern 
-males show the lowest (8.9%) — a 6.3% gap that was invisible in the CelebA 
-evaluation, which lacked racial demographic labels entirely.
+**Racial disparities exist within gender subgroups.** Among female subgroups,
+white females showed the highest predicted smiling rate (26.3%) and Indian
+females the lowest (16.6%), a 9.7 percentage point gap. Among male subgroups,
+white males showed the highest rate (15.2%) and middle eastern males the
+lowest (8.9%), a 6.3 percentage point gap. Both disparities were invisible in
+the CelebA evaluation due to the absence of racial demographic labels.
 
-**Single-dataset evaluation underreports bias.** The CelebA audit revealed gender 
-bias but could not surface racial intersectionality. FairFace revealed that bias 
-operates across two demographic axes simultaneously. Neither dataset alone tells 
-the full story.
+**Single-dataset evaluation underreports bias.** The CelebA audit revealed
+gender bias but could not surface racial intersectionality. FairFace revealed
+that bias operates across two demographic axes simultaneously. Neither dataset
+alone tells the full story.
 
-## Dataset
+## Setup
 
-1. Download FairFace from [github.com/joojs/fairface](https://github.com/joojs/fairface)
+1. Download FairFace from
+   [github.com/joojs/fairface](https://github.com/joojs/fairface)
+2. Place dataset at `data/fairface-img-margin125-trainval/`
+3. Train the CelebA model using the companion notebook and place it at
+   `models/smiling_cnn_model.keras`
+4. Update paths in the config cell at the top of the notebook if needed
 
 ## Methodology Note
 
-Race labels are used directly from FairFace rather than mapped to Fitzpatrick 
-skin tone proxies. Collapsing race into a skin tone proxy conflates two distinct 
-demographic attributes and risks obscuring the specific group patterns that 
-fairness evaluation is designed to surface.
+Race labels are used directly from FairFace rather than mapped to Fitzpatrick
+skin tone proxies. Collapsing race into a skin tone proxy conflates two
+distinct demographic attributes and risks obscuring the specific group
+patterns that fairness evaluation is designed to surface.
 
 ## References
 
