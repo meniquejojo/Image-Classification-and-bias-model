@@ -1,47 +1,67 @@
 # CelebA Smiling Classifier — Bias Audit
 
-A CNN trained to classify smiling expressions on the CelebA dataset, with a 
-full demographic bias audit across gender subgroups.
+A CNN trained to classify smiling expressions on the CelebA dataset, with a
+full demographic bias audit across gender subgroups using Gender Shades-aligned
+fairness metrics.
 
 ## What This Notebook Does
 
 1. Loads and preprocesses the CelebA dataset
-2. Trains a CNN smiling classifier (64×64 input, ~92% overall accuracy)
-3. Evaluates performance using precision, recall, and F1-score
-4. Breaks down performance by gender subgroups to identify bias patterns
+2. Trains a CNN smiling classifier (64×64 input)
+3. Evaluates performance using TPR, FNR, FPR, and TNR per subgroup
+4. Identifies gender-based performance disparities
 5. Generates confusion matrices and performance heatmaps
 
 ## Results
 
-| Metric | Value |
-|--------|-------|
-| Overall Accuracy | 91.6% |
-| Overall Precision | 0.914 |
-| Overall Recall | 0.919 |
-| Overall F1 | 0.917 |
-
 ### Subgroup Performance
 
-| Subgroup | Precision | Recall | F1 |
-|----------|-----------|--------|----|
-| female_not_smiling | 0.931 | 0.935 | 0.933 |
-| female_smiling | 0.931 | 0.935 | 0.933 |
-| male_not_smiling | 0.877 | 0.885 | 0.881 |
-| male_smiling | 0.877 | 0.885 | 0.881 |
+| Subgroup | TPR | FNR | FPR | TNR |
+|----------|-----|-----|-----|-----|
+| Female | 0.925 | 0.075 | 0.080 | 0.920 |
+| Male | 0.874 | 0.126 | 0.074 | 0.926 |
 
-**Gender F1 gap: 5.2%** — Female subgroups consistently outperform male subgroups 
-across all metrics. The identical scores within each gender group (smiling vs. 
-not smiling) suggest the model weights gender features more heavily than expression 
-features.
+**Key finding:** The model failed to detect smiling in male subjects at nearly
+double the rate it failed for female subjects — a 5.1 percentage point false
+negative rate gap. This suggests the model weighted gender features more heavily
+than expression features during training.
 
-## Key Finding
+## Fairness Metrics
 
-The model achieves strong overall accuracy while showing systematic underperformance 
-on male subjects. This pattern — correct answers through potentially incorrect 
-reasoning — motivated the FairFace generalization evaluation in the companion notebook.
+Metrics follow the Gender Shades evaluation framework:
 
+- **TPR (True Positive Rate):** proportion of smiling images correctly
+  classified as smiling
+- **FNR (False Negative Rate):** proportion of smiling images incorrectly
+  classified as not smiling
+- **FPR (False Positive Rate):** proportion of not-smiling images incorrectly
+  classified as smiling
+- **TNR (True Negative Rate):** proportion of not-smiling images correctly
+  classified as not smiling
+
+A fair model would show consistent TPR and FNR across demographic subgroups.
+The gap observed here — particularly in FNR — indicates systematic
+underperformance on male subjects.
+
+## Dataset Composition
+
+| Group | Image Count |
+|-------|-------------|
+| Female | 118,165 |
+| Male | 84,434 |
+
+The 1.4:1 female-to-male ratio in training data likely contributed to the
+model encoding gender as a predictive feature rather than learning expression
+features independent of demographic identity.
+
+## Setup
+
+Download the CelebA dataset from
+[Kaggle](https://www.kaggle.com/datasets/jessicali9530/celeba-dataset) and
+place it at `data/`. Update the `DATA_PATH` variable in the config cell at
+the top of the notebook.
 
 ## Methodology Note
 
-Subgroup evaluation methodology adapted from Buolamwini & Gebru, 
+Subgroup evaluation methodology adapted from Buolamwini & Gebru,
 *Gender Shades* (FAccT 2018).
