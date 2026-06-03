@@ -50,3 +50,10 @@ The two-dataset approach was intentional:
 - **FairFace** provides racial demographic labels and a demographically diverse
   general population, enabling distributional bias analysis across race × gender
   subgroups
+  
+## References
+
+- Buolamwini, J. & Gebru, T. (2018). Gender Shades: Intersectional Accuracy
+  Disparities in Commercial Gender Classification. *FAccT 2018*.
+- Karkkainen, K. & Joo, J. (2021). FairFace: Face Attribute Dataset for
+  Balanced Race, Gender, and Age. *WACV 2021*.
