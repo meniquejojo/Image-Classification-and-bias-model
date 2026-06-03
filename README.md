@@ -50,5 +50,3 @@ The two-dataset approach was intentional:
 - **FairFace** provides racial demographic labels and a demographically diverse
   general population, enabling distributional bias analysis across race × gender
   subgroups
-
-## Repository Structure
